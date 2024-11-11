@@ -1,1 +1,0 @@
-This is only meant to preserved the folder it resides in. It can be deleted when actual files are created and stored.

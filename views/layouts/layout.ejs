@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div id="wrapper">
-        <%- include('../partials/header') %>
-        <%- include('../partials/header') %>
+    <%- include('../partials/head') %>
 
-        <main>
-            <%- body %>
-        </main>
+    <body>
+        <div id="grapper">
+            <%- include('../partials/header') %>
+            <%- include('../partials/navigation') %>
 
-        <%- include('../partials/footer') %>
-    </div>
-</body>
+            <main>
+                <%- body %>
+            </main>
+
+            <%- include('../partials/footer') %>
+        </div>
+    </body>
 </html>

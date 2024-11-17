@@ -1,6 +1,200 @@
-/******* Change Box Model ***************/
+/******* Change Box Model**************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+*{  
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:root {
+  --primary-font: "Oranienbaum", serif;
+  --secondary-font: "Overlock", serif;;
+  --background-nav: #3B6064;
+  --primary-font-color: #074474;
+  }
+
+
+body {
+  background-image: url(/images/site/small_check.jpg);
+}
+
+#grapper {
+  height: 100%;
+  width: 90%;
+  background-color: white;
+  margin: 10px auto;
+  border: 3px solid #4A9EDF;
+  border-radius: 8px;
+}
+
+#top-header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap:1rem ;
+  padding: 15px;
+  
+}
+#logo {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  text-align: left;
+  margin: 0;
+}
+.siteName {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  font-family:var(--primary-font) ;
+  font-size: 50px;
+  margin-left:auto;
+  text-align: right;
+}
+
+#tools {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  width: 100%;
+  text-align: right;
+  font-family: var(--secondary-font);
+}
+
+nav {
+  width: 95%;
+  max-height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-family: var(--secondary-font);
+  background-color: var(--background-nav);
+  font-size: 20px;
+}
+
+#nav {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+
+h1 {
+  font-family: var(--primary-font);
+  margin-left: 25px;
+  padding-top: 10px;
+}
+
+#home-img {
+  background-image: url(/images/vehicles/delorean.jpg);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  width: 80%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: -1;
+}
+
+#article {
+  width: 200px;
+  height: 200px;
+  border:2px  #4A9EDF solid;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 50px;
+  margin-left: 20px;
+  background-color:rgba(202, 237, 247, 0.027); 
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(10px); 
+}
+
+.article {
+  text-align: left;
+  color: var(--primary-font-color);
+  font-family: var(--secondary-font);
+  font-size: 20px;
+  margin: 10px;
+}
+
+#own-today {
+  width:150px;
+}
+
+#information {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap:1rem ;  
+}
+
+h2 {
+  font-family: var(--primary-font);
+}
+
+#upgrades {
+  grid-row: 1/2;
+  grid-column: 1/3;
+  text-align: left;
+}
+
+#review {
+  grid-row: 1/2;
+  grid-column: 3/5;
+  text-align: left;
+}
+
+.capacitor, .flame, .bumper, .hub {
+  align-self: center;
+  margin-top:auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+}
+
+.capacitor {
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+
+.flame {
+  grid-row: 2/3;
+  grid-column: 2/3;
+}
+
+.bumper {
+  grid-row: 3/4;
+  grid-column: 1/2;
+}
+
+.hub {
+  grid-row: 3/4;
+  grid-column: 2/3;
+}
+
+a.capacitor, a.flame, a.bumper, a.hub {
+  margin-bottom: 0;
+  font-family: var(--secondary-font);
+}
+
+.reviews {
+  color: black;
+  grid-row: 2/4;
+  grid-column: 3/5;
+  font-family: var(--secondary-font);
+  font-size: 20px;
+  text-align: left;
+  align-content: center;
+}
+
+footer {
+  font-family: var(--secondary-font);
+  margin-left: 25px;
+  font-weight: bold;
+  padding: 15px;
 }

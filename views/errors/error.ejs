@@ -1,0 +1,11 @@
+<!-- Content Heading -->
+<div class="error-message">
+    <% if (title) { %>
+        <h1 ><%= title %></h1>
+        <% } else {
+          res.redirect('/')
+        } %>
+    
+        <%- message %>
+        <p>There will be something funny here one day...</p>
+    </div>

@@ -1,0 +1,51 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Message Block -->
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+  
+<!-- Login form -->
+<form id="register-form" action="/account/register" method="post">
+    <label for="firstname">First Name</label>
+    <input type="text" name="account_firstname" id="firstname" required>
+
+    <label for="lastname">Last Name</label>
+    <input type="text" name="account_lastname" id="lastname" required>
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="account_email" placeholder="Enter your email" required>
+    
+    <label for="password">Password:</label>
+    <div>(Must be 12 characters minimum, with at least 1 capital letter, lower case letter, number, and special character)</div>
+    <input type="password" id="password" name="account_password" placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>
+    <span id="passwordButton">Show Password</span>
+    
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    const passwordButton = document.querySelector("#passwordButton");
+    passwordButton.addEventListener("click", function() {
+        const passwordInput = document.querySelector("#password");
+        const type = passwordInput.getAttribute("type");
+        if (type == "password") {
+            passwordInput.setAttribute("type", "text");
+            passwordButton.innerHTML = "Hide Password";
+        } else {
+            passwordInput.setAttribute("type", "password");
+            passwordButton.innerHTML = "Show Password";
+        }
+    })
+</script>

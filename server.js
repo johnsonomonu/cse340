@@ -16,19 +16,20 @@ const expressMessages = require('express-messages');
 /* ***********************
  * Middleware
  ************************/
+
+
+
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
   }),
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET, // This should pull the secret from .env
   resave: true,
   saveUninitialized: true,
   name: 'sessionId',
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // Set to true in production with HTTPS
-  }
-}));
+}))
+
 
 // Flash messages middleware
 app.use(flash());

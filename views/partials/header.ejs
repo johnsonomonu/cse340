@@ -1,8 +1,14 @@
 <header id="top-header">
-  <span class="siteName">
-    <a href="/" title="Return to home page">CSE Motors</a>
-  </span>
-  <div id="tools">
-    <a title="Click to log in" href="/account/login">My Account</a>
-  </div>
+    <div class="siteName">
+        <img id="logo" src="/images/site/logo-big.webp" alt="brand logo">
+        <a id="logo-name" href="/" title="Return to home page">CSE Motors</a>
+    </div>
+    <div id="tools">
+        <% if (loggedin) { %> 
+            <a class="act-btn" href="/account">My Account</a>
+            <a class="act-btn" href="/account/logout">Logout</a>
+          <% } else { %>  
+            <a class="act-btn" href="/account/login">Login</button>
+          <% } %>
+    </div>
 </header>

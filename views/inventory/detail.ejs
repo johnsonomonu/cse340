@@ -1,0 +1,50 @@
+<% if (title) { %>
+    <h1 id="class-title"><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<%- grid %>
+
+<div>
+    <h2>Customer Reviews</h2>
+    <div class="reviews-container">
+        <%- reviewList %>
+    </div>    
+</div>
+
+<div>
+    <% if (loggedin) { %>
+      
+        <h2>Add Your Own Review</h2>
+        <form class="form-container" action="/inv/detail/review" method="post">
+            <fieldset>
+                <legend>New Review</legend>
+                <input type="hidden" name="inv_id" value="<%= vehicleData.inv_id %>">
+
+                <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+
+                <label class="review">Screen Name:
+                    <input type="text" name="screen_name" id="screenName" required readonly value="<%= locals.accountData.account_firstname.charAt(0) %><%= locals.accountData.account_lastname %>">
+                </label>
+                <label class="review">Review: 
+                    <textarea name="review_text" id="reviewText" rows="3" minlength="3" maxlength="350" required <%= reviewData ? 'value="' + reviewData.review_text + '"' : '' %>></textarea>
+                </label>
+                <input type="hidden" name="review_date" value="<%= new Date().toISOString() %>">
+                <button class="review" id="submit-btn" type="submit">Submit Review</button>
+            </fieldset>
+        </form>
+      <% } else { %>
+        <p><a href="/account/login">Log in</a> to write a review.</p>
+      <% } %>
+</div>

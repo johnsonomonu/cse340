@@ -1,51 +1,41 @@
-<!-- Content Heading -->
 <% if (title) { %>
-    <h1><%= title %></h1>
+    <h1 id="class-title"><%= title %></h1>
     <% } else {
-      res.redirect('/')
+        res.redirect('/')
     } %>
-
-<!-- Message Block -->
-<%- messages() %>
-
-<% if (errors) { %>
-    <ul class="notice">
-   <% errors.array().forEach(error => { %>
-     <li><%= error.msg %></li>
-  <%  }) %>
-   </ul>
-  <% } %>
-  
-<!-- Login form -->
-<form id="register-form" action="/account/register" method="post">
-    <label for="firstname">First Name</label>
-    <input type="text" name="account_firstname" id="firstname" required>
-
-    <label for="lastname">Last Name</label>
-    <input type="text" name="account_lastname" id="lastname" required>
-
-    <label for="email">Email Address:</label>
-    <input type="email" id="email" name="account_email" placeholder="Enter your email" required>
     
-    <label for="password">Password:</label>
-    <div>(Must be 12 characters minimum, with at least 1 capital letter, lower case letter, number, and special character)</div>
-    <input type="password" id="password" name="account_password" placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>
-    <span id="passwordButton">Show Password</span>
-    
-    <button type="submit">Register</button>
-</form>
+    <%- messages() %>
 
-<script>
-    const passwordButton = document.querySelector("#passwordButton");
-    passwordButton.addEventListener("click", function() {
-        const passwordInput = document.querySelector("#password");
-        const type = passwordInput.getAttribute("type");
-        if (type == "password") {
-            passwordInput.setAttribute("type", "text");
-            passwordButton.innerHTML = "Hide Password";
-        } else {
-            passwordInput.setAttribute("type", "password");
-            passwordButton.innerHTML = "Show Password";
-        }
-    })
-</script>
+    <% if (errors) { %>
+      <ul class="notice">
+     <% errors.array().forEach(error => { %>
+       <li><%= error.msg %></li>
+    <%  }) %>
+     </ul>
+    <% } %>
+    
+      <div>
+        <form class="form-container" action="/account/register"  method="post">
+            <span class="form-msg">All fields are required.</span>
+            <fieldset>
+              <label class="login">First Name:
+                <input type="text" name="account_firstname" id="accountFirstname" required value="<%= locals.account_firstname %>">
+              </label>
+        
+              <label class="login">Last Name:
+                <input type="text" name="account_lastname" id="accountLastname" required value="<%= locals.account_lastname %>">
+              </label>
+        
+              <label class="login">Email:
+                <input type="email" name="account_email" id="accountEmail" placeholder="Enter a valid email address" required value="<%= locals.account_email %>">
+              </label>
+              
+              <label class="login">*Password: 
+              <input type="password" placeholder="Something@12" name="account_password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$" required>
+              </label>
+              <span class="form-msg">* Passwords must be at least 12 characters, one must be a number, one must be a lowercase letter, one must be a capital letter, and one must be a non-alphanumeric character.</span>
+              <button class="register" id="submit-btn" type="submit">Register</button>
+            </fieldset>
+          </form>
+      </div>
+

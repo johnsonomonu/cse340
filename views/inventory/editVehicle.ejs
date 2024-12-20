@@ -1,0 +1,75 @@
+<% if (title) { %>
+    <h1 id="class-title"><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<div>
+    <form id="updateForm" class="form-container" action="/inv/update"  method="post" >
+        <span class="form-msg">ALL FIELDS ARE REQUIRED.</span>
+        <fieldset>
+          <label class="vehicle">Classification Name:
+            <select name="classification_id" id="classifications" required>
+                <option value="">Choose a Classification</option>
+                <% classifications.forEach(classification => { %>
+                  <option value="<%= classification.classification_id %>"
+                    <%= classification.classification_id == classification_id ? 'selected' : '' %>>
+                    <%= classification.classification_name %>
+                  </option>
+                <% }) %> 
+              </select>
+          </label>
+    
+          <label class="vehicle">Make:
+            <input type="text" name="inv_make" id="invMake" minlength="3" placeholder="Min of 3 characters" required value="<%= locals.inv_make %>">
+          </label>
+    
+          <label class="vehicle">Model:
+            <input type="text" name="inv_model" id="invModel" minlength="3" placeholder="Min of 3 characters" required value="<%= locals.inv_model %>">
+          </label>
+          
+          <label class="vehicle">Description: 
+          <textarea name="inv_description" id="invDescription" rows="3" maxlength="350" required><%= locals.inv_description %></textarea>
+          </label>
+
+          <label class="vehicle">Image File Path:
+            <input type="text" id="invImage" name="inv_image" required pattern="\/([^\/]+\/)+[a-zA-Z0-9_\- ]+\.[a-zA-Z0-9]+$"  placeholder="/folder/file-name.jpg" title="Please enter a valid path, starting with a '/', containing at least one folder, and ending with a file name" value=<%= locals.inv_image %>>
+          </label>
+
+          <label class="vehicle">Thumbnail File Path:
+            <input type="text" id="invThumbnail" name="inv_thumbnail" required pattern="\/([^\/]+\/)+[a-zA-Z0-9_\- ]+\.[a-zA-Z0-9]+$" placeholder="/folder/file-name.jpg" title="Please enter a valid path, starting with a '/', containing at least one folder, and ending with a file name" value=<%= locals.inv_thumbnail %>>
+          </label>
+
+          <label class="vehicle">Price:
+            <input type="number" id="invPrice" name="inv_price" placeholder="decimal or integer" min="1" required value="<%= locals.inv_price%>">
+          </label>
+
+          <label class="vehicle">Year:
+            <input type="number" id="invYear" name="inv_year" min="1000" max="9999" placeholder="4-digit year" required value="<%= locals.inv_year %>">
+          </label>
+          <label class="vehicle">Miles:
+            <input type="number" id="invMiles" name="inv_miles" placeholder="digits only" min="1" required value="<%= locals.inv_miles %>">
+          </label>
+
+          <label class="vehicle">Color:
+            <input type="text" id="invColor" name="inv_color" required value="<%= locals.inv_color %>">
+          </label>
+
+          <button class="register" id="submit-btn" type="submit" disabled>Update Vehicle</button>
+          <input type="hidden" name="inv_id"
+            <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+          <% } %>>
+        </fieldset>
+    </form>
+</div>
+<script src="../../js/inv-update.js"></script>

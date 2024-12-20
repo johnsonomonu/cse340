@@ -1,0 +1,45 @@
+<% if (title) { %>
+    <h1 id="class-title"><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+    
+    <%- messages() %>
+    
+    <% if (errors) { %>
+        <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+    <%  }) %>
+        </ul>
+    <% } %>
+
+    <div>
+        <form id="reviewEditForm" class="form-container" action="/account/review/edit" method="post">
+            <span>*ALL FIELDS ARE REQUIRED.</span>
+
+            <fieldset>
+                <legend>Edit Review</legend>
+                <input type="hidden" name="inv_id" value="<%= vehicleData.inv_id %>">
+
+                <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+
+                <input type="hidden" name="review_id" value="<%= locals.reviewData.review_id %>">
+
+                <label class="review">Review Date:
+                    <input type="text" name="review_date" id="reviewDate" required readonly 
+                    value="<%= new Date(locals.reviewData.review_date).toLocaleDateString('en-US', {
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric'
+                    }) %>">
+                </label>
+                <label class="review">Review: 
+                    <textarea name="review_text" id="reviewText" rows="3" maxlength="350" required><%= reviewData ? reviewData.review_text : '' %></textarea>
+                </label>
+                <button class="review" id="submit-btn" type="submit" disabled>Submit Review</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <script src="/js/review-edit.js"></script>

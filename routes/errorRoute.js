@@ -1,8 +1,8 @@
-const express = require("express");
-const router = new express.Router();
-const errorController = require("../controllers/errorController");
+const express = require("express")
+const router = express.Router() 
+const errorCont = require("../controllers/errorController")
+const utilities = require("../utilities")
 
-// Intentional error route
-router.get("/trigger-error", errorController.triggerError);
+router.get("/error", errorCont.buildFakeErrorByLink);
 
 module.exports = router;

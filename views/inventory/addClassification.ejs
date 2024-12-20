@@ -1,0 +1,33 @@
+<% if (title) { %>
+    <h1 id="class-title"><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<div>
+    <form class="form-container" action="/inv/addClassification"  method="post">
+        <span class="form-msg">ALL FIELDS ARE REQUIRED.</span>
+
+        <fieldset>
+          <legend>New Classification</legend>
+          <label class="vehicle">Classification Name:
+            <input type="text" name="classification_name" id="classificationName" pattern="^[a-zA-Z0-9]+$" required value="<%= locals.classification_name %>">
+          </label>
+          
+          <span class="form-msg">*New classification must contain only letters and numbers, with no spaces or special characters.</span>
+          
+          <button id="submit-btn" type="submit">Add Classification</button>
+          
+        </fieldset>
+    </form>
+</div>

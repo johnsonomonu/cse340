@@ -1,0 +1,43 @@
+<% if (title) { %>
+    <h1 id="class-title"><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<div>
+    <form id="deleteForm" class="form-container" action="/inv/delete"  method="post" >
+        <span class="form-msg">ALL FIELDS ARE REQUIRED.</span>
+        <fieldset>             
+          <label class="vehicle">Make:
+            <input type="text" name="inv_make" id="invMake" minlength="3" placeholder="Min of 3 characters" required  readonly value="<%= locals.inv_make %>">
+          </label>
+    
+          <label class="vehicle">Model:
+            <input type="text" name="inv_model" id="invModel" minlength="3" placeholder="Min of 3 characters" required readonly value="<%= locals.inv_model %>">
+          </label>
+
+          <label class="vehicle">Year:
+            <input type="number" id="invYear" name="inv_year" min="1000" max="9999" placeholder="4-digit year" required readonly value="<%= locals.inv_year %>">
+          </label>
+
+          <label class="vehicle">Price:
+            <input type="number" id="invPrice" name="inv_price" placeholder="decimal or integer" min="1" required readonly value="<%= locals.inv_price%>">
+          </label>
+          <p id="confirm-delete">** Confirm Deletion - The delete action is permanent. **</p>
+          <button class="register" id="submit-btn" type="submit" >Delete Vehicle</button>
+          <input type="hidden" name="inv_id"
+            <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+          <% } %>>
+        </fieldset>
+      </form>
+  </div>

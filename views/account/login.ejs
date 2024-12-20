@@ -1,26 +1,38 @@
-<!-- Content Heading -->
 <% if (title) { %>
-    <h1><%= title %></h1>
+    <h1 id="class-title"><%= title %></h1>
     <% } else {
-      res.redirect('/')
+        res.redirect('/')
     } %>
 
-<!-- Message Block -->
 <%- messages() %>
 
-<!-- Login form -->
-<form id="login-form" action="/login" method="POST">
-    <label for="email">Email Address:</label>
-    <input type="email" id="email" name="account_email" placeholder="Enter your email" required>
-    
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="account_password" placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>
-    
-    <button type="submit">Login</button>
-</form>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
 
-<!-- Registration link -->
-<p id="register-link">
-    No account? 
-    <a href="/account/register">Register here</a>.
-</p>
+<div>
+    <form id="loginForm" class="form-container" action="/account/login"  method="post">
+        <fieldset>
+
+          <label class="login">Email:
+            <input type="email" name="account_email" id="accountEmail" required value="<%= locals.account_email %>">
+          </label>
+          
+    
+          <label class="login">Password: 
+            <input type="password" name="account_password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$">
+          </label>
+
+          <span class="form-msg">* Passwords must be at least 12 characters, one must be a number, one must be a lowercase letter, one must be a capital letter, and one must be a non-alphanumeric character.</span>
+          
+          <button id="submit-btn" type="submit">Login</button>
+          
+          <span class="register">No account? <a href="/account/register">Sign-Up</a></span>
+
+        </fieldset>
+    </form>
+</div>

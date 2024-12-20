@@ -5,25 +5,25 @@
 /* ***********************
  * Require Statements
  *************************/
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-const env = require("dotenv").config()
-const app = express()
-const static = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute")
-const accountRoute = require("./routes/accountRoute")
-const errorRoute = require("./routes/errorRoute");
-const utilities = require("./utilities/")
-const session = require("express-session")
-const pool = require('./database/')
-const bodyParser = require("body-parser")
+const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+const env = require("dotenv").config();
+const app = express();
+const static = require("./routes/static");
+const inventoryRoute = require("./routes/inventoryRoute");
+const detailRoute = require("./routes/detailRoute");
+const fakeError = require("./routes/errorRoute");
+const accountRoute = require("./routes/accountRoute");
+const baseController = require("./controllers/baseController");
+const utilities = require("./utilities/index");
+const session = require("express-session");
+const pool = require("./database/");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 /* ***********************
  * Middleware
- * ************************/
-console.log("Using session secret:", process.env.SESSION_SECRET);
-
+ *************************/
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -42,16 +42,24 @@ app.use(function(req, res, next){
   next()
 })
 
-// For parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true })) 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
+app.use((req, res, next) => {
+  res.locals.loggedin = !!req.cookies.jwt; 
+  next();
+});
 
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout")
+app.set("layout", "./layouts/layout") // not at views root
+
 
 /* ***********************
  * Routes
@@ -61,18 +69,21 @@ app.use(static)
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
-// Inventory routes
+// Inventory Route
 app.use("/inv", inventoryRoute)
 
-// Account routes
+// Detail Route
+app.use("/inv/detail", detailRoute)
+
+// Account Route
 app.use("/account", accountRoute)
 
-// Intentional error route
-app.use("/error", errorRoute);
+// Intention Error Route
+app.use("/errors", fakeError)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
-  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+  next({status: 404, message: `Awwww... Don't Cry. It's just a 404 Error!`})
 })
 
 /* ***********************
@@ -82,11 +93,11 @@ app.use(async (req, res, next) => {
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! This is a 500 error.'}
+  console.log(err.message)
   res.render("errors/error", {
     title: err.status || 'Server Error',
-    message,
-    nav
+    nav,
+    message: err.message
   })
 })
 

@@ -7,60 +7,37 @@ const invCont = {}
  *  Build inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
+  const classification_id = req.params.classificationId
+  
+  if (isNaN(classification_id) || classification_id <= 0) {
+    console.error("Invalid classification ID:", req.params.classificationId)
+    const error = new Error("Invalid classification ID. Must be a positive number.")
+    error.status = 400
+    next(error)
+    return
+  }
+
   try {
-    const classification_id = req.params.classificationId;
-    const data = await invModel.getInventoryByClassificationId(classification_id);
-
-    // If no data associated, throw error
-    if (!data || data.length === 0) {
-      const error = new Error("Vehicle classification not found");
-      error.status = 404;
-      throw error;
+    const data = await invModel.getInventoryByClassificationId(classification_id)
+  
+    if (!data) {
+      const error = new Error("Type not found")
+      error.status = 404
+      next(error)
+      return  
     }
-
-    const grid = await utilities.buildClassificationGrid(data);
-    const nav = await utilities.getNav();
-    const className = data[0].classification_name;
+  
+    const grid = await utilities.buildClassificationGrid(data)
+    let nav = await utilities.getNav()
+    const className = data[0].classification_name
     res.render("./inventory/classification", {
-      title: `${className} Vehicles`,
+      title: className + " vehicles",
       nav,
       grid,
-      errors: null,
-    });
+    })
   } catch (error) {
-    next(error);
+    console.error("Error in buildByClassificationId:", error)
   }
-};
-
-
-/* ***************************
- *  Build vehicle page by inventory id
- * ************************** */
-invCont.buildByInvId = async function (req, res, next) {
-  try {
-    const inv_id = req.params.invId;
-    const data = await invModel.getDetailByVehicleId(inv_id);
-
-    // If not data associated, throw error
-    if (!data) {
-      const error = new Error("Vehicle not found");
-      error.status = 404;
-      throw error;
-    }
-
-    const vehicleTemplate = await utilities.buildVehiclePage(data);
-    const nav = await utilities.getNav();
-    const vehicleName = `${data.inv_year} ${data.inv_make} ${data.inv_model}`;
-    res.render("./inventory/vehicle", {
-      title: vehicleName,
-      nav,
-      vehicleTemplate,
-      errors: null,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
+}
 
 module.exports = invCont

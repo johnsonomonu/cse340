@@ -1,0 +1,30 @@
+<% if (title) { %>
+    <h1 id="class-title"><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<div id="acct-management">
+    <h2 id="acct-title">Hello <%= locals.accountData.account_firstname %> <%= locals.accountData.account_lastname %>!</h2>
+    <h3><a class="data-manage" href="/account/edit/<%= locals.accountData.account_id %>">Update Account &rarr;</a></h3>
+    <% if (['Employee', 'Admin'].includes(locals.accountData.account_type)) { %>
+        <h3><a class="data-manage" href="/inv">Inventory Management &rarr;</a></h3>
+    <% } %>    
+</div>
+
+<div>
+    <h2>My Reviews</h2>
+    <div class="reviews-container">
+        <%- actReviewList %>
+    </div>
+</div>
